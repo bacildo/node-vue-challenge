@@ -1,4 +1,3 @@
-const mysqlConnection = require("../configs/database/mysql");
 const {
   createConnection,
   query,
@@ -7,23 +6,25 @@ const {
 
 async function getStudentsQuery() {
   const connection = await createConnection();
-
-  // try {
-  //   const [rows] = await connection.query("SELECT * FROM students");
-  //   return rows;
-  // } catch (error) {
-  //   console.error("Error executing query:", error);
-  //   throw error;
-  // } finally {
-  //   connection.release();
-  // }
-
-  // await createConnection();
   try {
     const rows = await query("SELECT * FROM students");
     return rows;
   } catch (err) {
-    console.error("Error getting alunos:", err);
+    console.error("Error getting student list:", err);
+    throw err;
+  } finally {
+    if (connection) {
+      closeConnection();
+    }
+  }
+}
+async function getStudentsByIdQuery(id) {
+  const connection = await createConnection();
+  try {
+    const rows = await query("SELECT * FROM students WHERE id_student = ?", [id]);
+    return rows[0];
+  } catch (err) {
+    console.error("Error getting student:", err);
     throw err;
   } finally {
     if (connection) {
@@ -32,31 +33,49 @@ async function getStudentsQuery() {
   }
 }
 
-async function getStudentsByIdQuery(id) {
-  const [rows] = await mysqlConnection.query(
-    "SELECT * FROM alunos WHERE id = ?",
-    [id]
-  );
-  return rows[0];
+async function createStudentQuery(student) {
+  const connection = await createConnection();
+  try {
+    const result = await query("INSERT INTO students SET ?", student);
+    return result
+  } catch (err) {
+    console.error("Error creating student:", err);
+    throw err;
+  } finally {
+    if (connection) {
+      closeConnection();
+    }
+  }
 }
 
-async function createStudentQuery(aluno) {
-  const [result] = await mysqlConnection.query("INSERT INTO students SET ?", [
-    aluno,
-  ]);
-  return { id: result.insertId, ...aluno };
-}
+async function updateStudentQuery(id, student) {
+  const connection = await createConnection();
 
-async function updateStudentQuery(id, aluno) {
-  await mysqlConnection.query("UPDATE students SET ? WHERE id = ?", [
-    aluno,
-    id,
-  ]);
-  return { id, ...aluno };
+  try {
+    await query("UPDATE students SET ? WHERE id_student = ?", [student, id]);
+    return { id, ...student };
+  } catch (err) {
+    console.error("Error updating student:", err);
+    throw err;
+  } finally {
+    if (connection) {
+      closeConnection();
+    }
+  }
 }
 
 async function deleteStudentQuery(id) {
-  await mysqlConnection.query("DELETE FROM students WHERE id = ?", [id]);
+  const connection = await createConnection();
+  try {
+    await query("DELETE FROM students WHERE id_student = ?", [id]);
+  } catch (err) {
+    console.error("Error deleting student:", err);
+    throw err;
+  } finally {
+    if (connection) {
+      closeConnection();
+    }
+  }
 }
 
 module.exports = {
