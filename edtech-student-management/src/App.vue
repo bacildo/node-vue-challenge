@@ -3,9 +3,9 @@
     <v-main>
       <router-view />
     </v-main>
+    <v-navigation-drawer />
   </v-app>
 </template>
-
 
 <script>
 export default {
@@ -34,10 +34,8 @@ body {
   background-color: aqua;
 } */
 
-
-
 /* Estilos adicionais específicos do App.vue */
-</style> 
+</style>
 
 <!-- <template>
   <div id="app">
