@@ -1,55 +1,80 @@
 <template>
   <v-app>
-    <v-app-bar
-      app
-      color="primary"
-      dark
-    >
-      <div class="d-flex align-center">
-        <v-img
-          alt="Vuetify Logo"
-          class="shrink mr-2"
-          contain
-          src="https://cdn.vuetifyjs.com/images/logos/vuetify-logo-dark.png"
-          transition="scale-transition"
-          width="40"
-        />
-
-        <v-img
-          alt="Vuetify Name"
-          class="shrink mt-1 hidden-sm-and-down"
-          contain
-          min-width="100"
-          src="https://cdn.vuetifyjs.com/images/logos/vuetify-name-dark.png"
-          width="100"
-        />
-      </div>
-
-      <v-spacer></v-spacer>
-
-      <v-btn
-        href="https://github.com/vuetifyjs/vuetify/releases/latest"
-        target="_blank"
-        text
-      >
-        <span class="mr-2">Latest Release</span>
-        <v-icon>mdi-open-in-new</v-icon>
-      </v-btn>
-    </v-app-bar>
-
     <v-main>
-      <router-view/>
+      <router-view />
     </v-main>
   </v-app>
 </template>
 
-<script>
 
+<script>
 export default {
-  name: 'App',
+  name: "App",
 
   data: () => ({
     //
   }),
 };
 </script>
+
+<style>
+/* Estilos globais para a aplicação */
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+/* #app {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  background-color: aqua;
+} */
+
+
+
+/* Estilos adicionais específicos do App.vue */
+</style> 
+
+<!-- <template>
+  <div id="app">
+    <h1>Minha Aplicação Vue</h1>
+    <router-view />
+  </div>
+</template>
+
+<script>
+import "@/assets/styles.css"; // Importa o arquivo CSS
+
+export default {
+  name: "App",
+};
+</script>
+
+<style>
+/* Estilos globais para a aplicação */
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+#app {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  background-color: aqua;
+}
+
+h1 {
+  color: #333;
+  text-align: center;
+}
+
+/* Estilos adicionais específicos do App.vue */
+</style> -->
