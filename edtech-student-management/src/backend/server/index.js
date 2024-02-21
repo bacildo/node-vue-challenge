@@ -1,17 +1,15 @@
 const express = require("express");
-const {createDbConnection} = require("../../backend/configs/database/mysql");
+const mysqlConnection = require("../../backend/configs/database/mysql");
 
 const app = express();
 const PORT = 3000;
-const routePrefix = "/api";
+const studentsRouter = require("../routes/students")
+
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-app.use(routePrefix, (req, res, next) => {
-  req.routePrefix = routePrefix;
-  next();
-});
+app.use("/students", studentsRouter);
 
 
 app.listen(PORT, () => {
