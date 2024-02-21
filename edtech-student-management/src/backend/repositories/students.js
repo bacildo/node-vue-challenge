@@ -32,12 +32,12 @@ async function getStudentsByIdQuery(id) {
     }
   }
 }
-
 async function createStudentQuery(student) {
   const connection = await createConnection();
   try {
-    const result = await query("INSERT INTO students SET ?", student);
-    return result
+    const createStudentQuery = "INSERT INTO students (name, register, cpf, email) VALUES (?, ?, ?, ?)";
+    const result = await query(createStudentQuery, [student.name, student.register, student.cpf, student.email]);
+    return result;
   } catch (err) {
     console.error("Error creating student:", err);
     throw err;
@@ -47,6 +47,7 @@ async function createStudentQuery(student) {
     }
   }
 }
+
 
 async function updateStudentQuery(id, student) {
   const connection = await createConnection();

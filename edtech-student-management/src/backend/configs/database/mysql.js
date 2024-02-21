@@ -12,7 +12,7 @@ async function createConnection() {
   });
 
   try {
-    await mysqlPool.getConnection();
+   await mysqlPool.getConnection();
     console.log("Connected to mysql database");
     return mysqlPool;
   } catch (err) {

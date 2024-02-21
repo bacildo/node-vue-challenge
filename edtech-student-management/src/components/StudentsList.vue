@@ -38,7 +38,8 @@
       <v-btn @click="toggleListaAlunos">{{
         showStudentList ? "Ocultar Alunos" : "Mostrar Alunos"
       }}</v-btn>
-      <v-btn @click="adicionarAluno">Adicionar Aluno</v-btn>
+      <!-- <v-btn @click="adicionarAluno">Adicionar Aluno</v-btn> -->
+      <v-btn @click="criarAluno(student)">Criar Aluno</v-btn>
     </v-card-actions>
 
     <!-- Modal de edição -->
@@ -58,6 +59,23 @@
       </v-card>
     </v-dialog>
 
+      <!-- Modal de criação -->
+      <v-dialog v-model="showCreateModal" max-width="500px">
+      <v-card>
+        <v-card-title>Criar Aluno</v-card-title>
+        <v-card-text>
+          <v-text-field label="Nome" v-model="createdStudent.name"></v-text-field>
+          <v-text-field label="Matrícula" v-model="createdStudent.register"></v-text-field>
+          <v-text-field label="CPF" v-model="createdStudent.cpf"></v-text-field>
+          <v-text-field label="E-mail" v-model="createdStudent.email"></v-text-field>
+        </v-card-text>
+        <v-card-actions>
+          <v-btn color="blue darken-1" @click="adicionarAluno(createdStudent)">Salvar</v-btn>
+          <v-btn color="red darken-1" @click="cancelarEdicao">Cancelar</v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
+
   </v-card>
 </template>
 
@@ -70,9 +88,15 @@ export default {
       students: [],
       showStudentList: false,
       showAlert: false,
-      // editDialog: false, // Controla a exibição do modal de edição
       editedStudent: {}, // Armazena as informações do aluno em edição
       showEditModal: false, // Controla a modal de editing
+      showCreateModal: false,
+      createdStudent: {
+        name: "",
+        register: "",
+        cpf: "",
+        email: ""
+      }
     };
   },
   methods: {
@@ -86,31 +110,29 @@ export default {
       }
     },
     async adicionarAluno(student) {
+      console.log('adicionaaaaaaaaaaaaaaaar',student)
       try {
         const response = await httpRequest.post("/students", student);
         console.log("Aluno adicionado com sucesso:", response.data);
         this.carregarAlunos();
+        this.showCreateModal = false;
       } catch (error) {
         console.error("Erro ao adicionar aluno:", error);
       }
     },
 
-    // async editarAluno(student) {
-    //   try {
-    //     const response = await httpRequest.get(
-    //       `/students/${student.id_student}`
-    //     );
-    //     this.editedStudent = response.data; // Armazena os dados do aluno a ser editado
-    //     this.showEditModal = true; // Abre o modal de edição
-    //   } catch (error) {
-    //     console.error("Erro ao editar aluno:", error);
-    //   }
-    // },
-
     editarAluno(student) {
       this.editedStudent = { ...student }; // Clona os dados do aluno para a variável editedStudent
       this.showEditModal = true; // Abre o modal de edição
     },
+
+    criarAluno(student) {
+  console.log('ewewewewewewewew', student);
+  this.createdStudent = { ...student }; // Clona os dados do aluno para a variável createdStudent
+  this.showCreateModal = true; // Abre o modal de criação
+},
+    
+
     async salvarEdicao() {
       try {
         const response = await httpRequest.put(
@@ -128,18 +150,6 @@ export default {
       this.showEditModal = false; // Fecha o modal sem salvar
     },
 
-    // async editarAluno(student) {
-    //   try {
-    //     const response = await httpRequest.put(
-    //       `/students/${student.id_student}`,
-    //       student
-    //     );
-    //     console.log("Aluno editado com sucesso:", response.data);
-    //     this.carregarAlunos();
-    //   } catch (error) {
-    //     console.error("Erro ao editar aluno:", error);
-    //   }
-    // },
     async excluirAluno(id) {
       try {
         await httpRequest.delete(`/students/${id}`);
