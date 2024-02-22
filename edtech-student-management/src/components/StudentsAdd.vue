@@ -74,7 +74,7 @@ export default {
         this.dialogVisible = false;
       } else {
         // Mostrar uma mensagem de erro ou tomar alguma outra ação
-        console.error("Formulário inválido");
+        console.error("Invalid form");
       }
     },
     closeModal() {

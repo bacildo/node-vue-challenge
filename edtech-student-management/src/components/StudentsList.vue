@@ -28,6 +28,7 @@
         <StudentsEdit
           :student="selectedStudent"
           @save="handleSave"
+          :show="showEditModal"
           @close="handleCloseModal"
         />
       </template>
@@ -87,7 +88,7 @@ export default {
       this.selectedStudent = student;
       this.showEditModal = true;
     },
-    
+
     deleteStudentModal(id_student) {
       if (Number.isInteger(id_student)) {
         this.selectedStudent = { id: id_student };
@@ -105,8 +106,6 @@ export default {
       this.selectedStudent = null;
     },
     handleSave(editedStudent) {
-      
-      console.log('sssssssssssssssss',editedStudent)
       apiService
         .updateStudent(editedStudent)
         .then(() => {
@@ -118,7 +117,6 @@ export default {
         });
     },
     handleDelete() {
-      
       if (!this.selectedStudent || !Number.isInteger(this.selectedStudent.id)) {
         console.error(
           "Error deleting student: Selected student id is undefined or not a number."

@@ -1,18 +1,41 @@
 <template>
-  <v-dialog v-model="show">
+  <v-dialog v-model="dialogVisible">
     <v-card>
       <v-card-title>Editar Aluno</v-card-title>
       <v-card-text>
-        <v-text-field v-model="editedStudent.name" label="Nome"></v-text-field>
-        <!-- O campo CPF só será exibido se o usuário não estiver editando -->
-        <v-text-field v-if="!editing" v-model="editedStudent.cpf" label="CPF" readonly></v-text-field>
-        <!-- O campo Matrícula só será exibido se o usuário não estiver editando -->
-        <v-text-field v-if="!editing" v-model="editedStudent.register" label="Matrícula" readonly></v-text-field>
-        <!-- O campo CPF será exibido apenas se o usuário estiver editando -->
-        <v-text-field v-if="editing" v-model="editedStudent.cpf" label="CPF"></v-text-field>
-        <!-- O campo Matrícula será exibido apenas se o usuário estiver editando -->
-        <v-text-field v-if="editing" v-model="editedStudent.register" label="Matrícula"></v-text-field>
-        <v-text-field v-model="editedStudent.email" label="E-mail"></v-text-field>
+        <v-form ref="form">
+          <v-text-field
+            v-model="editedStudent.name"
+            :rules="[(v) => !!v || 'Nome é obrigatório']"
+            label="Nome"
+          ></v-text-field>
+          <v-text-field
+            v-model="editedStudent.register"
+            :rules="[
+              (v) => !!v || 'Matrícula é obrigatória',
+              (v) => /^\d+$/.test(v) || 'Matrícula deve conter apenas números',
+            ]"
+            label="Matrícula"
+            readonly
+          ></v-text-field>
+          <v-text-field
+            v-model="editedStudent.cpf"
+            :rules="[
+              (v) => !!v || 'CPF é obrigatório',
+              (v) => /^\d+$/.test(v) || 'CPF deve conter apenas números',
+            ]"
+            label="CPF"
+            readonly
+          ></v-text-field>
+          <v-text-field
+            v-model="editedStudent.email"
+            :rules="[
+              (v) => !!v || 'E-mail é obrigatório',
+              (v) => /.+@.+\..+/.test(v) || 'E-mail inválido',
+            ]"
+            label="E-mail"
+          ></v-text-field>
+        </v-form>
       </v-card-text>
       <v-card-actions>
         <v-btn @click="saveStudent">Salvar</v-btn>
@@ -25,24 +48,41 @@
 <script>
 export default {
   props: {
-    student: Object
+    show: Boolean,
+    student: Object,
   },
   data() {
     return {
-      show: true,
-      editing: false, // Indica se o usuário está editando ou não
-      editedStudent: { ...this.student }
+      dialogVisible: this.show,
+      editedStudent: { ...this.student },
     };
+  },
+  watch: {
+    show(newValue) {
+      this.dialogVisible = newValue;
+      this.editedStudent = { ...this.student };
+    },
+    student(newStudent) {
+      this.editedStudent = { ...newStudent };
+    },
   },
   methods: {
     saveStudent() {
-      this.$emit('save', this.editedStudent);
-      this.show = false; // Fechar o modal após salvar
+      // Validar os campos
+      const valid = this.$refs.form.validate();
+      if (valid) {
+        // Emitir o evento de salvar apenas se os campos forem válidos
+        this.$emit("save", this.editedStudent);
+        this.dialogVisible = false;
+      } else {
+        // Mostrar uma mensagem de erro ou tomar alguma outra ação
+        console.error(" Invalid Form");
+      }
     },
     closeModal() {
-      this.show = false;
-      this.$emit('close'); // Emitir evento de fechar modal
-    }
-  }
+      this.dialogVisible = false;
+      this.$emit("close"); // Emitir evento de fechar modal
+    },
+  },
 };
 </script>
