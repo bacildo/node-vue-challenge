@@ -30,25 +30,15 @@ const getStudentsById = async (req, res) => {
 const createStudent = async (req, res) => {
   try {
     const student = req.body;
-    console.log("Dados do aluno a serem inseridos:", student);
+    console.log("Student data to be added:", student);
     const newStudent = await createStudentQuery(student);
     res.json(newStudent);
   } catch (error) {
-    console.error("Erro ao criar aluno:", error);
+    console.error("Error creating student:", error);
     res.status(500).json({ error: "Erro ao criar aluno" });
   }
 };
-// const createStudent = async (req, res) => {
 
-//   try {
-//     const student = req.body;
-//     const newStudent = await createStudentQuery(student);
-//     res.json(newStudent);
-//   } catch (error) {
-//     console.error("Error creating student", error);
-//     res.status(500).json({ error: "Error creating student" });
-//   }
-// };
 
 const updateStudent = async (req, res) => {
   try {
