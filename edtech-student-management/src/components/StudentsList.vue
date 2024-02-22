@@ -72,6 +72,9 @@ export default {
   },
   created() {
     this.loadStudents();
+    this.$on('add-student', () => {
+      this.showAddModal = true;
+    });
   },
   methods: {
     loadStudents() {
@@ -87,6 +90,7 @@ export default {
     editStudentModal(student) {
       this.selectedStudent = student;
       this.showEditModal = true;
+      
     },
 
     deleteStudentModal(id_student) {
