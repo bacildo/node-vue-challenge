@@ -54,7 +54,8 @@ const updateStudent = async (req, res) => {
 
 const deleteStudent = async (req, res) => {
   try {
-    const id = req.params.id;
+    const id = req.params.id
+    console.log("Student id to be deleted:", id);
     await deleteStudentQuery(id);
     res.json({ message: "Succesfully deleted the student" });
   } catch (error) {

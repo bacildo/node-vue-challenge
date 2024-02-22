@@ -1,23 +1,30 @@
-import Vue from "vue";
-import VueRouter from "vue-router";
-// import StudentsActions from "../components/StudentsActions.vue"
-import StudentsList from "../components/StudentsList.vue";
-Vue.use(VueRouter);
+import Vue from 'vue';
+import Router from 'vue-router';
 
-const routes = [
+import StudentsList from "../components/StudentsList.vue"
+import StudentsEdit from "../components/StudentsEdit.vue"
+import StudentsDelete from "../components/StudentsDelete.vue"
 
+Vue.use(Router);
 
-  { path: "/", component: StudentsList },
-  // { path: "/aluno/novo", component: StudentsActions },
-  // { path: "/aluno/:id", component: StudentsActions },
-
-  
-];
-
-const router = new VueRouter({
-  mode: "history",
-  base: process.env.BASE_URL,
-  routes,
+export default new Router({
+  routes: [
+    {
+      path: '/',
+      name: 'home',
+      component: StudentsList
+    },
+    {
+      path: '/edit/:id',
+      name: 'edit',
+      component: StudentsEdit,
+      props: true
+    },
+    {
+      path: '/delete/:id',
+      name: 'delete',
+      component: StudentsDelete,
+      props: true
+    }
+  ]
 });
-
-export default router;

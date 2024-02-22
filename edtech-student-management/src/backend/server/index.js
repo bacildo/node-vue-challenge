@@ -9,7 +9,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cors())
 
-app.use("/students", studentsRouter);
+app.use("/", studentsRouter);
 
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);

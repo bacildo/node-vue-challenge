@@ -68,7 +68,7 @@ async function updateStudentQuery(id, student) {
 async function deleteStudentQuery(id) {
   const connection = await createConnection();
   try {
-    await query("DELETE FROM students WHERE id_student = ?", [id]);
+    await query("DELETE FROM students WHERE id_student = ?", id);
   } catch (err) {
     console.error("Error deleting student:", err);
     throw err;
