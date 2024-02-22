@@ -89,7 +89,6 @@ export default {
     },
     
     deleteStudentModal(id_student) {
-      console.log('xalalaaaaaaaaaaaa', id_student);
       if (Number.isInteger(id_student)) {
         this.selectedStudent = { id: id_student };
         this.showDeleteModal = true;
@@ -106,6 +105,8 @@ export default {
       this.selectedStudent = null;
     },
     handleSave(editedStudent) {
+      
+      console.log('sssssssssssssssss',editedStudent)
       apiService
         .updateStudent(editedStudent)
         .then(() => {
@@ -117,7 +118,6 @@ export default {
         });
     },
     handleDelete() {
-      console.log('xalalaaaaaaaaaaaa', this.selectedStudent);
       
       if (!this.selectedStudent || !Number.isInteger(this.selectedStudent.id)) {
         console.error(
