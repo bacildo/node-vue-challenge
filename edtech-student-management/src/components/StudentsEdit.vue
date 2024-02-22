@@ -1,11 +1,17 @@
 <template>
-  <v-dialog v-model="dialogVisible">
+  <v-dialog v-model="show">
     <v-card>
       <v-card-title>Editar Aluno</v-card-title>
       <v-card-text>
         <v-text-field v-model="editedStudent.name" label="Nome"></v-text-field>
-        <v-text-field v-model="editedStudent.register" label="Matrícula"></v-text-field>
-        <v-text-field v-model="editedStudent.cpf" label="CPF"></v-text-field>
+        <!-- O campo CPF só será exibido se o usuário não estiver editando -->
+        <v-text-field v-if="!editing" v-model="editedStudent.cpf" label="CPF" readonly></v-text-field>
+        <!-- O campo Matrícula só será exibido se o usuário não estiver editando -->
+        <v-text-field v-if="!editing" v-model="editedStudent.register" label="Matrícula" readonly></v-text-field>
+        <!-- O campo CPF será exibido apenas se o usuário estiver editando -->
+        <v-text-field v-if="editing" v-model="editedStudent.cpf" label="CPF"></v-text-field>
+        <!-- O campo Matrícula será exibido apenas se o usuário estiver editando -->
+        <v-text-field v-if="editing" v-model="editedStudent.register" label="Matrícula"></v-text-field>
         <v-text-field v-model="editedStudent.email" label="E-mail"></v-text-field>
       </v-card-text>
       <v-card-actions>
@@ -19,31 +25,23 @@
 <script>
 export default {
   props: {
-    student: Object,
-    show: Boolean
+    student: Object
   },
   data() {
     return {
-      dialogVisible: this.show,
+      show: true,
+      editing: false, // Indica se o usuário está editando ou não
       editedStudent: { ...this.student }
     };
-  },
-  watch: {
-    show(newVal) {
-      this.dialogVisible = newVal;
-    },
-    student(newVal) {
-      this.editedStudent = { ...newVal };
-    }
   },
   methods: {
     saveStudent() {
       this.$emit('save', this.editedStudent);
-      this.dialogVisible = false;
+      this.show = false; // Fechar o modal após salvar
     },
     closeModal() {
-      this.dialogVisible = false;
-      this.$emit('close');
+      this.show = false;
+      this.$emit('close'); // Emitir evento de fechar modal
     }
   }
 };
