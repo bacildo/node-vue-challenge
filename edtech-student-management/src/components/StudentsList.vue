@@ -1,8 +1,12 @@
 <template>
   <div>
-    <router-link to="/">Voltar</router-link>
+    <router-link to="/">Voltar </router-link>
     <v-toolbar>
-      <v-text-field v-model="search" label="Pesquisar" placeholder="Digite o nome do aluno"></v-text-field>
+      <v-text-field
+        v-model="search"
+        label="Pesquisar"
+        placeholder="Digite o nome do aluno"
+      ></v-text-field>
       <v-spacer></v-spacer>
       <v-btn @click="showAddModal = true">Adicionar Aluno</v-btn>
     </v-toolbar>
@@ -28,9 +32,6 @@
         </v-list-item-action>
       </v-list-item>
     </v-list>
-
-    
-
 
     <v-dialog v-model="showEditModal">
       <template v-if="showEditModal">
@@ -58,8 +59,6 @@
       @save="handleAdd"
       @close="handleCloseAddModal"
     />
-
- 
   </div>
 </template>
 
@@ -77,22 +76,22 @@ export default {
       showDeleteModal: false,
       showAddModal: false,
       selectedStudent: {},
-      search: ''
+      search: "",
     };
   },
   created() {
     this.loadStudents();
-    this.$on('add-student', () => {
+    this.$on("add-student", () => {
       this.showAddModal = true;
     });
   },
-  
+
   computed: {
     filteredStudents() {
-      return this.students.filter(student =>
+      return this.students.filter((student) =>
         student.name.toLowerCase().includes(this.search.toLowerCase())
       );
-    }
+    },
   },
 
   methods: {
@@ -109,7 +108,6 @@ export default {
     editStudentModal(student) {
       this.selectedStudent = student;
       this.showEditModal = true;
-      
     },
 
     deleteStudentModal(id_student) {

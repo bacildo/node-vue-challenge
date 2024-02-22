@@ -1,7 +1,6 @@
 <template>
   <v-card>
     <v-card-title class="h1">Módulo Acadêmico</v-card-title>
-
     <v-card-text v-if="showStudentList">
       <v-list>
         <v-list-item

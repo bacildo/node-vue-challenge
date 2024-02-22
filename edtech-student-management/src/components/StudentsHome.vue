@@ -1,9 +1,6 @@
 <template>
   <div>
-    <v-btn @click="goToList">Listar Alunos</v-btn>
-    <v-btn @click="showAddModal = true">Adicionar Aluno</v-btn>
     <router-view></router-view>
-
     <StudentsAdd
       :show="showAddModal"
       @save="handleAdd"
