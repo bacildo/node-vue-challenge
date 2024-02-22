@@ -1,8 +1,14 @@
 <template>
   <div>
+    <router-link to="/">Voltar</router-link>
+    <v-toolbar>
+      <v-text-field v-model="search" label="Pesquisar" placeholder="Digite o nome do aluno"></v-text-field>
+      <v-spacer></v-spacer>
+      <v-btn @click="showAddModal = true">Adicionar Aluno</v-btn>
+    </v-toolbar>
     <v-list>
       <v-list-item
-        v-for="student in students"
+        v-for="student in filteredStudents"
         :key="student.id"
         class="student-card"
       >
@@ -22,6 +28,9 @@
         </v-list-item-action>
       </v-list-item>
     </v-list>
+
+    
+
 
     <v-dialog v-model="showEditModal">
       <template v-if="showEditModal">
@@ -50,7 +59,7 @@
       @close="handleCloseAddModal"
     />
 
-    <v-btn @click="showAddModal = true">Adicionar Aluno</v-btn>
+ 
   </div>
 </template>
 
@@ -68,6 +77,7 @@ export default {
       showDeleteModal: false,
       showAddModal: false,
       selectedStudent: {},
+      search: ''
     };
   },
   created() {
@@ -76,6 +86,15 @@ export default {
       this.showAddModal = true;
     });
   },
+  
+  computed: {
+    filteredStudents() {
+      return this.students.filter(student =>
+        student.name.toLowerCase().includes(this.search.toLowerCase())
+      );
+    }
+  },
+
   methods: {
     loadStudents() {
       apiService
