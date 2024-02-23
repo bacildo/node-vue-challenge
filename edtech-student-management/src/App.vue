@@ -37,7 +37,7 @@ export default {
       if (this.$route.path !== "/alunos") {
         this.$router.push("/alunos");
       }
-      this.drawer = false; // Fechar o drawer após clicar
+      this.drawer = false; 
     },
   },
 };

@@ -68,20 +68,17 @@ export default {
   },
   methods: {
     saveStudent() {
-      // Validar os campos
       const valid = this.$refs.form.validate();
       if (valid) {
-        // Emitir o evento de salvar apenas se os campos forem válidos
         this.$emit("save", this.editedStudent);
         this.dialogVisible = false;
       } else {
-        // Mostrar uma mensagem de erro ou tomar alguma outra ação
         console.error(" Invalid Form");
       }
     },
     closeModal() {
       this.dialogVisible = false;
-      this.$emit("close"); // Emitir evento de fechar modal
+      this.$emit("close");
     },
   },
 };
